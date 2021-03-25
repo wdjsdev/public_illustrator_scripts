@@ -1,6 +1,7 @@
 //author: William Dowling
 //email: illustrator.dev.pro@gmail.com
 //linkedin: https://www.linkedin.com/in/william-dowling-4537449a/
+//Adobe Discussion Forum Post about this library: 
 
 //*******//
 
@@ -39,7 +40,6 @@ function alignObjectsToCenter(key,otherObjects)
 	}
 }
 
-
 //align all objects' vertical centers to the vertical center of key
 function vAlignCenter(key,otherObjects)
 {
@@ -54,11 +54,11 @@ function vAlignCenter(key,otherObjects)
 //align all objects to the top of key
 function vAlignTop(key,otherObjects)
 {
-	var kp = key.top - key.height/2;
+	var kp = key.top;
 
 	for(var x=0;x<otherObjects.length;x++)
 	{
-		otherObjects[x].top = kp + otherObjects[x].height/2;
+		otherObjects[x].top = kp;
 	}
 }
 
@@ -79,7 +79,7 @@ function hAlignCenter(key,otherObjects)
 	var kp = key.left + key.width/2;
 	for(var x=0;x<otherObjects.length;x++)
 	{
-		otherObjects[x].left = kp + otherObjects[x].width/2;
+		otherObjects[x].left = kp - otherObjects[x].width/2;
 	}
 }
 
