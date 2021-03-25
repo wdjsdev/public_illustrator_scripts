@@ -1,7 +1,7 @@
 //author: William Dowling
 //email: illustrator.dev.pro@gmail.com
 //linkedin: https://www.linkedin.com/in/william-dowling-4537449a/
-//Adobe Discussion Forum Post about this library: 
+//Adobe Discussion Forum Post about this library: https://community.adobe.com/t5/illustrator/library-for-aligning-objects-via-script/m-p/11925954#M269613
 
 //*******//
 
