@@ -18,6 +18,12 @@
 //key : any pageItem
 //otherObjects: Array of page items to align
 
+//Known Issues:
+// If you use these on items with clipping masks, the resulting
+// alignment will be mathematically correct, but will likely be
+// visually incorrect. This is because Illustrator includes clipped
+// art in the dimensions of an object. =(
+
 
 
 
