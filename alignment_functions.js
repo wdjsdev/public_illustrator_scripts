@@ -1,7 +1,22 @@
+//author: William Dowling
+//email: illustrator.dev.pro@gmail.com
+//linkedin: https://www.linkedin.com/in/william-dowling-4537449a/
+
+//*******//
+
+//Did you find this useful? Would you like to buy me a cup of coffee to say thanks?
+//paypal.me/illustratordev
+//<3
+
+//*******//
+
+
+
+//Alignment Functions
 //
 //given a key object and an an array of path items
 //key : any pageItem
-//otherObjects: [Array of page items]
+//otherObjects: Array of page items to align
 
 
 
@@ -18,6 +33,8 @@ function alignObjectsToCenter(key,otherObjects)
 	}
 }
 
+
+//align all objects' vertical centers to the vertical center of key
 function vAlignCenter(key,otherObjects)
 {
 	var kp = key.top - key.height/2;
@@ -28,6 +45,7 @@ function vAlignCenter(key,otherObjects)
 	}
 }
 
+//align all objects to the top of key
 function vAlignTop(key,otherObjects)
 {
 	var kp = key.top - key.height/2;
@@ -38,6 +56,7 @@ function vAlignTop(key,otherObjects)
 	}
 }
 
+//align all ojects to the bottom of key
 function vAlignBottom(key,otherObjects)
 {
 	var kp = key.top - key.height;
@@ -48,6 +67,7 @@ function vAlignBottom(key,otherObjects)
 	}
 }
 
+//align all objects' center points to center point of key
 function hAlignCenter(key,otherObjects)
 {
 	var kp = key.left + key.width/2;
@@ -57,6 +77,7 @@ function hAlignCenter(key,otherObjects)
 	}
 }
 
+//align all objects to the left edge of key
 function hAlignLeft(key,otherObjects)
 {
 	var kp = key.left;
@@ -66,6 +87,7 @@ function hAlignLeft(key,otherObjects)
 	}
 }
 
+// align all objects to the right edge of key
 function hAlignRight(key,otherObjects)
 {
 	var kp = key.left + key.width;
