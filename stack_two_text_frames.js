@@ -1,10 +1,12 @@
 /*
 	Fuction name: stack_two_text_frames
+	
 	Function description: given two textFrames, align the second textFrame
 		to the left edge of first textFrame, then place the second textFrame
 		some value of points below the first textFrame. this is determined by
 		the SPACING constant. Set this value to whatever you want. Remember that
 		it's in points. so if you want 1" spacing, use 72pt.
+	
 	Author: William Dowling
 	Buy the author some coffee: https://www.paypal.com/paypalme/illustratordev
 
