@@ -1,3 +1,33 @@
+/*
+
+    Script Name: Swatch Group From CSV
+    Author: William Dowling
+    Email: illustrator.dev.pro@gmail.com
+
+    If this is useful to you and you'd like to say thanks
+        by buying me some coffee:
+    Paypal: paypal.me/illustratordev
+    
+    Description:
+        prompt user to select a csv file
+        parse csv file and create a new
+        swatch group for every valid row of the csv.
+        Currently only handles RGB colors, but could be
+        easily adapted to work with any color type.
+    Instructions:
+        Open a blank document
+        Run Script
+        Select CSV file
+        Tada. a new swatch group is created containing each
+            swatch in the csv file.
+        If you want to export this as a swatch library,
+            remove all of the default colors leaving only
+            the new swatch group. In the top right corner of
+            the swatches panel click the menu button, then select
+            "Save Swatch Library As ASE".
+
+*/
+
 #target Illustrator
 function createSwatchGroupFromCSV() {
     var valid = true; //running flag validation. if this is ever false, exit
