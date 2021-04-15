@@ -16,7 +16,7 @@
 
 */
 
-
+#target Illustrator
 
 function resizeWithVariableData()
 {
