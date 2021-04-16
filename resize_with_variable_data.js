@@ -100,7 +100,7 @@ function resizeWithVariableData()
 
 	
 
-	
+	var missingItems = [];
 
 	var rows = csvContents.split("\n");
 	var splitRow,curRect,curPos = [];
@@ -116,6 +116,15 @@ function resizeWithVariableData()
 			curRect.left = curPos[0];
 			curRect.top = curPos[1] + curRect.height;
 		}
+		else
+		{
+			missingItems.push(splitRow[0]);
+		}
+	}
+
+	if(missingItems.length)
+	{
+		alert("The following items were listed on the CSV, but were not found in the document:\n" + missingItems.join("\n"));
 	}
 }
 resizeWithVariableData();
