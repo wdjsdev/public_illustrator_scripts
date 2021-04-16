@@ -102,3 +102,10 @@ function hAlignRight(key,otherObjects)
 		otherObjects[x].left = kp - otherObjects[x].width;
 	}
 }
+
+////////////////////////
+////////ATTENTION://////
+//
+//		add some logic to allow for aligning to artboard
+//
+////////////////////////
