@@ -23,9 +23,32 @@
 arguments:
 	name: String
 		represents the name of the swatch you want to find/create
-	[colorType]: String, optional
+	[db]: Object, optional
+		In the event the swatch doesn't exist and a new one needs to
+		be created, you can pass in a JSON object to automatically pull
+		the info you need for the given swatch. example formatting:
+			{
+				"My Swatch":{"cyan": 12,"magenta": 30,"yellow": 84,"black": 5},
+				"Special Red":{"cyan": 12,"magenta": 30,"yellow": 84,"black": 5},
+				"Sky Blue":{"red":15,"green":30,"blue":126}
+			}
+	[colorModel]: String (case insensitive), optional
+		represents the kind of swatch to be created
+		options are:
+			PROCESS
+			REGISTRATION
+			SPOT
+
+	[colorType]: String (case insensitive), optional
 		represents the color type you want to use
-		current supported options are "CMYK" and "RGB"
+		options:
+			CMYK
+			GRADIENT
+			GRAY
+			PATTERN
+			RGB
+			SPOT
+			NONE
 	[colorValue]: Object, optional
 		represents the color values of the swatch
 		eg.
@@ -38,18 +61,16 @@ arguments:
 	[tint]: Number
 		Number between 0 and 100 representing the tint of the swatch
 		Don't know if it has to be an int.. I've never tried a float
-	[db]: Object, optional
-		In the event the swatch doesn't exist and a new one needs to
-		be created, you can pass in a JSON object to automatically pull
-		the info you need for the given swatch. example formatting:
-			{
-				"My Swatch":{"cyan": 12,"magenta": 30,"yellow": 84,"black": 5},
-				"Special Red":{"cyan": 12,"magenta": 30,"yellow": 84,"black": 5}
-			}
+	
 */
 
-function makeNewSpotColor(name,colorType,colorValue,tint,db)
+function getSpecificSwatch(name,db,colorModel,colorType,colorValue,tint)
 {
+	if(!name)
+	{
+		alert("You must provide a name for the swatch.");
+		return undefined;
+	}
 	var doc = app.activeDocument;
 	var swatches = doc.swatches;
 	
@@ -58,13 +79,21 @@ function makeNewSpotColor(name,colorType,colorValue,tint,db)
 	//set them to some default value
 	if(!colorType)
 	{
-		//default colorType cmyk
-		//just swap the comment on these statements
-		//to use RGB as default
-		
-		colorType = "CMYK"
-		// colorType = "RGB"
+		colorType = "SPOT";
 	}
+	else if(!colorType.match(/process|registration|spot/i))
+	{
+		alert(colorType + " is not a valid color type.\nPlease use one of the following:\nProcess\nRegistration\nSpot.")
+		return undefined;
+	}
+
+	if(!colorType)
+	{
+		//default colorType cmyk
+		colorType = "CMYK";
+
+	}
+
 	if(!colorValue)
 	{
 		if(db && db[name])
@@ -86,6 +115,7 @@ function makeNewSpotColor(name,colorType,colorValue,tint,db)
 		}
 		
 	}
+	
 
 
 
@@ -105,10 +135,13 @@ function makeNewSpotColor(name,colorType,colorValue,tint,db)
 	{
 		//there was no swatch in the document matching "name"
 		//create a new spot swatch with the given parameters
-		var newColor = (colorType === "CMYK") ? new CMYKColor() : new RGBColor();
+		// var newColor = (colorType === "CMYK") ? new CMYKColor() : new RGBColor();
+		var newColor = getNewColor(colorType);
+		
+
 		for(var color in colorValue)
 		{
-			newColor[color] = colorValue[color];
+			newColor[color.toLowerCase()] = colorValue[color];
 		}
 
 		var newSpot = doc.spots.add();
@@ -125,4 +158,37 @@ function makeNewSpotColor(name,colorType,colorValue,tint,db)
 		}
 	}
 	return newSpotSwatch;
+
+
+	function getNewColor(colorType)
+	{
+		var newColor;
+		switch(colorType.toUpperCase())
+		{
+			case "SPOT":
+				newColor = new SpotColor();
+				break;
+			case "CMYK":
+				newColor = new CMYKColor();
+				break;
+			case "RGB":
+				newColor = new RGBColor();
+				break;
+			case "GRADIENT":
+				newColor = new GradientColor();
+				break;
+			case "GRAY":
+				newColor = new GrayColor();
+				break;
+			case "PATTERN":
+				newColor = new PatternColor();
+				break;
+			case "NONE":
+				newColor = new NoColor();
+				break;
+			default:
+				alert(colorType + " is not a valid color type.");
+		}
+		return newColor;
+	}
 }
