@@ -84,7 +84,8 @@ function resizeWithVariableData()
 	//
 	//prompt user for csv file
 	//
-	var csvFile = File.openDialog("Select CSV File","~/Desktop/");
+	//defaults to last used folder
+	var csvFile = File.openDialog("Select CSV File");
 
 	// debugger;
 	// return;
