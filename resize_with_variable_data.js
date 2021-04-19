@@ -64,6 +64,10 @@ function resizeWithVariableData()
 		return result;
 	}
 
+	function mmToPt(mm)
+	{
+		return mm * 2.834645669391;
+	}
 
 
 
@@ -122,8 +126,8 @@ function resizeWithVariableData()
 		if(curRect)
 		{
 			curPos = [curRect.left,curRect.top - curRect.height];
-			curRect.width = splitRow[1];
-			curRect.height = splitRow[2];
+			curRect.width = mmToPt(splitRow[1]);
+			curRect.height = mmToPt(splitRow[2]);
 			curRect.left = curPos[0];
 			curRect.top = curPos[1] + curRect.height;
 		}
