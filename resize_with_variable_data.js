@@ -72,14 +72,24 @@ function resizeWithVariableData()
 	var layers = doc.layers;
 	
 
+	//
+	//hard coded csv file
+	//
 	//change this path to match the location of your csv
 	// var pathToCSV = "/Users/tugberkdilbaz/Desktop/abc.csv"
-	var pathToCSV = "~/Desktop/test/abc.csv";
+	// var pathToCSV = "~/Desktop/test/abc.csv";
+	// var csvFile = File(pathToCSV);
 
 
-	var csvFile = File(pathToCSV);
+	//
+	//prompt user for csv file
+	//
+	var csvFile = File.openDialog("Select CSV File","~/Desktop/");
 
-	if(csvFile.exists)
+	// debugger;
+	// return;
+
+	if(csvFile && csvFile.exists)
 	{
 		csvFile.open("r");
 		var csvContents = csvFile.read();
