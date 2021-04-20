@@ -1,5 +1,5 @@
 /*
-	Script Name: resize with variable data
+	Script Name: copy layers to new doc
 	Author: William Dowling
 	Email: illustrator.dev.pro@gmail.com
 	Forum Post: https://community.adobe.com/t5/illustrator/prepopulate-layers-with-simple-object-i-e-rectangle/td-p/11981726
@@ -8,7 +8,11 @@
 	please consider buying me a cup of coffee to say thanks. =)
 	Paypal: paypal.me/illustratordev
 
-	Description: create a rectangle in each layer and sublayer of
+	Description: Create a new document with a layer structure matching
+		the current active document. Since layers cannot be directly copied
+		the following "workaround" is used:
+
+		create a rectangle in each layer and sublayer of
 		document, then copy/paste all rectangles into new document
 		with "pasteRemembersLayers" turned on to recreate layer
 		structure in new document. Then remove all the temp rectangles
@@ -24,7 +28,7 @@
 
 
 #target Illustrator
-function newDocWithCurrentLayerStructure()
+function copyLayersToNewDoc()
 {
 	var doc = app.activeDocument;
 	var layers = doc.layers;
@@ -88,4 +92,4 @@ function newDocWithCurrentLayerStructure()
 
 	
 }
-newDocWithCurrentLayers();
+copyLayersToNewDoc();
