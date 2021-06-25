@@ -1,3 +1,16 @@
+//author: William Dowling
+//email: illustrator.dev.pro@gmail.com
+//linkedin: https://www.linkedin.com/in/william-dowling-4537449a/
+//Adobe Discussion Forum Post about this library: https://community.adobe.com/t5/illustrator/library-for-aligning-objects-via-script/m-p/11925954#M269613
+
+//*******//
+
+//Did you find this useful? Would you like to buy me a cup of coffee to say thanks?
+//paypal.me/illustratordev
+//<3
+
+//*******//
+
 function arrayFromContainer(container,crit)
 {
 	if(!container)return [];
