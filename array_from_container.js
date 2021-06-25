@@ -11,6 +11,14 @@
 
 //*******//
 
+
+//returns a clean javascript array of child items matching the given criteria
+//container is some container object
+	//eg. layer,groupItem,document
+//crit is a string representing the type of child items
+//you want to get. If no criteria is given, default value is "pageItems".
+	//eg. "textFrames","groupItems","placedItems","layers", etc
+
 function arrayFromContainer(container,crit)
 {
 	if(!container)return [];
