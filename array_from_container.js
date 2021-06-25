@@ -1,5 +1,7 @@
 function arrayFromContainer(container,crit)
 {
+	if(!container)return [];
+
 	var result = [];
 	var items;
 	if(!crit || crit === "any")
