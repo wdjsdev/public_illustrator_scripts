@@ -27,11 +27,12 @@
 
 function getRegMarks()
 {
+	var searchSwatchName = "DIE";
 	// set up the script and declare some variables
 	var doc = app.activeDocument;
 	var layers = doc.layers;
 	var swatches = doc.swatches;
-	var regSwatch = swatches "[Registration]";
+	var regSwatch = swatches[searchSwatchName];
 
 	// deselect all and then select all items that are filled with [Registration] color
 	doc.selection = null;
