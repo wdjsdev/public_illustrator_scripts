@@ -2,10 +2,15 @@
     
     In reference to this thread on the Adobe Illustrator forum:
         https://community.adobe.com/t5/illustrator-discussions/looking-for-a-way-to-export-object-shape-or-artboard-size-data-to-a-csv-or-similar-file/td-p/12596046
-
-    Edited, refactored, and finished by:
+    
+    Written by:
+        J_Kraft
+        https://community.adobe.com/t5/user/viewprofilepage/user-id/21530381
+        
+    Edited, refactored, and cleaned up by:
         William Dowling
         github.com/wdjsdev
+        linkedin
         illustrator.dev.pro@gmail.com
 
     Was this helpful? Would you like to say thanks by buying me a cup of coffee?
@@ -14,8 +19,7 @@
 */
 
 
-# target Illustrator
-
+#target Illustrator
 function container()
 {
 
