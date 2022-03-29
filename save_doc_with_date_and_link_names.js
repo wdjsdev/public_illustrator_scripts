@@ -56,6 +56,13 @@ function SaveDocWithDateAndLinkNames()
 
 	doc.saveAs(File(outputFolderPath + "/" + newFileName));
 
+    for(var i = 0; i < links.length; i++)
+    {
+        links[i].embed();
+    }
+
+    doc.save();
+
 }
 SaveDocWithDateAndLinkNames();
 
