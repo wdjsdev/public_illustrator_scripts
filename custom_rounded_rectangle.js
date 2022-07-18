@@ -108,6 +108,8 @@ function customRoundedRectangle(parent, y, x, w, h, r) {
     //remove pathfinder actions from actions panel
     removeAction("pathfinder");
 
+    return app.selection[0];
+
     //end of script
 
 
