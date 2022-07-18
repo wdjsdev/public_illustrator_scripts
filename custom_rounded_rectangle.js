@@ -9,8 +9,9 @@
 //author: William Dowling
 //email: illustrator.dev.pro@gmail.com
 //github: https://www.github.com/wdjsdev
+    //this project on githuh: https://github.com/wdjsdev/public_illustrator_scripts/blob/master/custom_rounded_rectangle.js
 //linkedin: https://www.linkedin.com/in/william-dowling-4537449a/
-//Adobe Discussion Forum Post about this library: https://community.adobe.com/t5/illustrator/library-for-aligning-objects-via-script/m-p/11925954#M269613
+//Adobe Discussion Forum Post that initiated this: https://community.adobe.com/t5/illustrator-discussions/rounded-rectangle/td-p/13076613
 
 //*******//
 
@@ -24,12 +25,12 @@
 //*******//
 
 //arguments:
-//parent: the parent element inside which to create the rectangle
-//y: y coordinate of the point
-//x: x coordinate of the point
-//w: width of the rectangle
-//h: height of the rectangle
-//r: array of radii clockwise from top left corner
+//parent: the parent container object inside which to create the rectangle 
+//y: y coordinate of the point (Number)
+//x: x coordinate of the point  (Number)
+//w: width of the rectangle (Number)
+//h: height of the rectangle (Number)
+//r: array of radii clockwise from top left corner (array)
 function customRoundedRectangle(parent, y, x, w, h, r) {
 
     ///////////////////////////////////////////////////////////////////////////
