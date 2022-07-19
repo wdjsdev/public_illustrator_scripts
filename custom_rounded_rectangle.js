@@ -43,74 +43,78 @@ function customRoundedRectangle(parent, y, x, w, h, r) {
         return;
     }
 
+    function makeRect()
+    {
+        var doc = app.activeDocument;
+        var swatches = doc.swatches;
+        var blackSwatch;
+        try {
+            blackSwatch = swatches["Black"];
+        } catch (error) {
+            blackSwatch = swatches.add();
+            blackSwatch.name = "Black";
+            blackSwatch.color = new CMYKColor();
+            blackSwatch.color.black = 100;
+        }
 
-    var doc = app.activeDocument;
-    var swatches = doc.swatches;
-    var blackSwatch;
-    try {
-        blackSwatch = swatches["Black"];
-    } catch (error) {
-        blackSwatch = swatches.add();
-        blackSwatch.name = "Black";
-        blackSwatch.color = new CMYKColor();
-        blackSwatch.color.black = 100;
+        //draw the base rectangle
+        var rect = parent.pathItems.rectangle(y, x, w, h);
+        rect.filled = true;
+        rect.fillColor = blackSwatch.color;
+        rect.stroked = false;
+        var rectData = { w: rect.width, h: rect.height, l: rect.left, t: rect.top, r: rect.left + rect.width, b: rect.top - rect.height };
+        var cp = parent.compoundPathItems.add();
+        //create an ellipse for each radius
+        r.forEach(function (radius, i) {
+            var rad = radius * 2;
+            var ellipse = cp.pathItems.ellipse(y, x, rad, rad);
+            ellipse.filled = true;
+            ellipse.fillColor = blackSwatch.color;
+            ellipse.stroked = false;
+            switch (i) {
+                case 1:
+                    ellipse.left += rectData.w - rad;
+                    break;
+                case 2:
+                    ellipse.left += rectData.w - rad;
+                    ellipse.top -= rectData.h - rad;
+                    break;
+                case 3:
+                    ellipse.top -= rectData.h - rad;
+            }
+        });
+
+        //load pathfinder actions into actions panel
+        createAction("pathfinder", getActionString());
+
+        doc.selection = null;
+        cp.selected = rect.selected = true;
+        app.doScript("divide", "pathfinder");
+
+        //look for the "corner"s of the rectangle...
+        //the part that's outside our desired radius
+        afc(doc.selection[0], "pageItems").forEach(function (item) {
+            var area = Math.abs(item.area);
+            var calcArea = item.width * item.height;
+            if (area < (calcArea * .6)) {
+                item.remove();
+            }
+        });
+
+        //all that's left should be the base rectangle and
+        //the ellipses for the corner radii. unite them all
+        //together into a single pathItem.
+        app.doScript("unite", "pathfinder");
+
+        //remove pathfinder actions from actions panel
+        removeAction("pathfinder");
+
+        return app.selection[0];
+
+        //end of script
+
     }
-
-    //draw the base rectangle
-    var rect = parent.pathItems.rectangle(y, x, w, h);
-    rect.filled = true;
-    rect.fillColor = blackSwatch.color;
-    rect.stroked = false;
-    var rectData = { w: rect.width, h: rect.height, l: rect.left, t: rect.top, r: rect.left + rect.width, b: rect.top - rect.height };
-    var cp = parent.compoundPathItems.add();
-    //create an ellipse for each radius
-    r.forEach(function (radius, i) {
-        var rad = radius * 2;
-        var ellipse = cp.pathItems.ellipse(y, x, rad, rad);
-        ellipse.filled = true;
-        ellipse.fillColor = blackSwatch.color;
-        ellipse.stroked = false;
-        switch (i) {
-            case 1:
-                ellipse.left += rectData.w - rad;
-                break;
-            case 2:
-                ellipse.left += rectData.w - rad;
-                ellipse.top -= rectData.h - rad;
-                break;
-            case 3:
-                ellipse.top -= rectData.h - rad;
-        }
-    });
-
-    //load pathfinder actions into actions panel
-    createAction("pathfinder", getActionString());
-
-    doc.selection = null;
-    cp.selected = rect.selected = true;
-    app.doScript("divide", "pathfinder");
-
-    //look for the "corner"s of the rectangle...
-    //the part that's outside our desired radius
-    afc(doc.selection[0], "pageItems").forEach(function (item) {
-        var area = Math.abs(item.area);
-        var calcArea = item.width * item.height;
-        if (area < (calcArea * .6)) {
-            item.remove();
-        }
-    });
-
-    //all that's left should be the base rectangle and
-    //the ellipses for the corner radii. unite them all
-    //together into a single pathItem.
-    app.doScript("unite", "pathfinder");
-
-    //remove pathfinder actions from actions panel
-    removeAction("pathfinder");
-
-    return app.selection[0];
-
-    //end of script
+        
 
 
 
@@ -504,6 +508,16 @@ function customRoundedRectangle(parent, y, x, w, h, r) {
 
         return pathfinderActionString;
     }
+
+
+    //this is the function call that actually
+    //does the work. I wrapped the logic in a function
+    //to avoid variable scope issues and accessing
+    //Array.forEach before it was defined.
+    //But i still want the function logic to be at the
+    //top of the file so it's easier to read and
+    //the dependencies at the bottom and out of the way. 
+    makeRect();
 }
 
 //sample function call:
