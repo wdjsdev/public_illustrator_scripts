@@ -1,10 +1,12 @@
 //Custom Rounded Rectangle Generator
 //The built in roundedRectangle() method only allows for changing
 //"verticalRadius" and "horizontalRadius".. But if you use different
-//values for these, the corners are not truly rounded, and the values given
-//will apply to both left and right sides or top and bottom.
+//values for these, the corners are not truly round... they'll be asymptotic
+//and the values given will apply to both left and right sides or top and bottom
+//so you can't change the corners individually
+.
 //This customRoundedRectangle() function allows for each corner to have a separate
-//corner radius that is truly rounded.
+//corner radius that is truly rounded and maintains the integrity of the rectangle's existing side
 
 //author: William Dowling
 //email: illustrator.dev.pro@gmail.com
@@ -20,16 +22,16 @@
 //<3
 
 //Do you have some work to do, but you have more money than time/skill?
-//Send me an email or a dm! I'll see what I can do to help you out.
+//Send me an email or a dm! I'll see what we can do to help each other..
 
 //*******//
 
 //arguments:
 //parent: the parent container object inside which to create the rectangle 
-//y: y coordinate of the point (Number)
-//x: x coordinate of the point  (Number)
-//w: width of the rectangle (Number)
-//h: height of the rectangle (Number)
+//y: y (top) coordinate of the rectangle (Number, in points)
+//x: x (left) coordinate of the rectangle  (Number, in points)
+//w: width of the rectangle (Number, in points)
+//h: height of the rectangle (Number, in points)
 //r: array of radii clockwise from top left corner (array)
 function customRoundedRectangle(parent, y, x, w, h, r) {
 
