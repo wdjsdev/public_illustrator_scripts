@@ -4,7 +4,7 @@
 //values for these, the corners are not truly round... they'll be asymptotic
 //and the values given will apply to both left and right sides or top and bottom
 //so you can't change the corners individually
-.
+
 //This customRoundedRectangle() function allows for each corner to have a separate
 //corner radius that is truly rounded and maintains the integrity of the rectangle's existing side
 
@@ -27,13 +27,13 @@
 //*******//
 
 //arguments:
-//parent: the parent container object inside which to create the rectangle 
 //y: y (top) coordinate of the rectangle (Number, in points)
 //x: x (left) coordinate of the rectangle  (Number, in points)
 //w: width of the rectangle (Number, in points)
 //h: height of the rectangle (Number, in points)
 //r: array of radii clockwise from top left corner (array)
-function customRoundedRectangle(parent, y, x, w, h, r) {
+//parent: the parent container object inside which to create the rectangle 
+function customRoundedRectangle(y, x, w, h, r, parent) {
 
     ///////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -42,6 +42,19 @@ function customRoundedRectangle(parent, y, x, w, h, r) {
     ///////////////////////////////////////////////////////////////////////////
     if (!app.documents.length) {
         alert("Please open a document and try again.");
+        return;
+    }
+
+    //if no parent is passed, assume the active document
+    //and make sure the first layer is not locked or hidden
+    if (!parent) {
+        parent = app.activeDocument;
+        parent.layers[0].locked = false;
+        parent.layers[0].visible = true;
+    }
+    else if (!parent.typename.match(/group|layer|doc/i))
+    {
+        alert("Can't make a rounded rectangle within a parent that isn't a group, layer, or document.");
         return;
     }
 
@@ -523,4 +536,4 @@ function customRoundedRectangle(parent, y, x, w, h, r) {
 }
 
 //sample function call:
-// customRoundedRectangle(app.activeDocument, 0, 0, 200, 400, [20, 10, 25, 50]);
+customRoundedRectangle(0, 0, 200, 400, [20, 10, 25, 50],app.activeDocument);
