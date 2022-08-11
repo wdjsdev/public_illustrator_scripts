@@ -108,7 +108,7 @@ function duplicateArtboardToAllOpenDocuments()
     {
         destDoc = docsArray[d];
         destDoc.activate();
-        vardestAb = destDoc.artboards.add(abDupRect);
+        var destAb = destDoc.artboards.add(abDupRect);
         //move artboard by assigning it a new artboardRect
         //keep track of the distance the artboard moves, then
         //apply the same transformation to the artGroup
