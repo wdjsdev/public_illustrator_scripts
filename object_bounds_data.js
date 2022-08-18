@@ -6,8 +6,18 @@ function getVisibleBounds ( object )
     //https://github.com/joshbduncan/adobe-scripts/blob/main/MatchObjects.jsx
     var bounds, clippedItem, sandboxItem, sandboxLayer;
     var curItem;
+    if ( object.guides )
+    {
+        //we don't really want to measure the guides. they're not "visible" anyway. 
+        return undefined;
+    }
     if ( object.typename == "GroupItem" )
     {
+        //if the group has no pageItems, return undefined
+        if ( !object.pageItems || object.pageItems.length == 0 )
+        {
+            return undefined;
+        }
         // if the object is clipped
         if ( object.clipped )
         {
@@ -61,6 +71,7 @@ function getVisibleBounds ( object )
             {
                 curItem = object.pageItems[ i ];
                 subObjectBounds = getVisibleBounds( curItem );
+                if ( !subObjectBounds ) continue; // we don't care about this item's bounds in this context. probably it's a guide
                 allBoundPoints[ 0 ].push( subObjectBounds[ 0 ] );
                 allBoundPoints[ 1 ].push( subObjectBounds[ 1 ] );
                 allBoundPoints[ 2 ].push( subObjectBounds[ 2 ] );
@@ -87,7 +98,12 @@ function getVisibleBounds ( object )
 //centerpoints, etc. 
 function getBoundsData ( item )
 {
-    var bounds = getVisibleBounds( item );
+    var bounds = item.typename.match( /artboard/i ) ? item.artboardRect : getVisibleBounds( item );
+    if ( !bounds )
+    {
+        $.writeln( "Error: " + item.name + " has no visible bounds." );
+        return {};
+    }
     var result = {};
 
     result.l = result.left = bounds[ 0 ]; //left
