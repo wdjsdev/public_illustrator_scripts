@@ -103,11 +103,11 @@ function getBoundsData ( item )
     result.maxDimProp = result.w > result.h ? "width" : "height"; // larger dimension of width and height
     result.maxDim = result.maxDimProp.match( /w/i ) ? result.w : result.h; // larger dimension of width and height
 
-    result.clip = result.clippedArtwork = {}; //measurements of amount of artwork clipped/invisible
-    result.clip.leftClipped = result.clip.l = result.l - item.left; // how much is clipped off the left side of the item
-    result.clip.topClipped = result.clip.t = item.top - result.t; // how much is clipped off the top of the item
-    result.clip.rightClipped = result.clip.r = item.right - result.r; // how much is clipped off the right side of the item
-    result.clip.bottomClipped = result.clip.b = result.b - item.bottom; // how much is clipped off the bottom of the item
+    result.clipped = result.clippedArtwork = {}; //measurements of amount of artwork clipped/invisible
+    result.clipped.left = result.clipped.l = result.l - item.left; // how much is clipped off the left side of the item
+    result.clipped.top = result.clipped.t = item.top - result.t; // how much is clipped off the top of the item
+    result.clipped.right = result.clipped.r = item.right - result.r; // how much is clipped off the right side of the item
+    result.clipped.bottom = result.clipped.b = result.b - item.bottom; // how much is clipped off the bottom of the item
 
     return result;
 }
