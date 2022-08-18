@@ -16,96 +16,158 @@
 //Alignment Functions
 //
 //given a key object and an an array of path items
-//key : any pageItem
+//align all objects to the key object
+//function also accounts for any invisible "clipped" artwork which normally
+//messes up positioning because the invisible art is included in the bounds of the art.
+
+//arguments
+//key : any pageItem or artboard object
 //otherObjects: Array of page items to align
 
-//Known Issues:
-// If you use these on items with clipping masks, the resulting
-// alignment will be mathematically correct, but will likely be
-// visually incorrect. This is because Illustrator includes clipped
-// art in the dimensions of an object. =(
 
-
-
-
-//align all elements of the array to the key object's center point
-function alignObjectsToCenter(key,otherObjects)
-{
-	var kp = [key.left + key.width/2, key.top - key.height/2];
-
-	for(var x=0;x<otherObjects.length;x++)
-	{
-		otherObjects[x].left = kp[0] - otherObjects[x].width/2;
-		otherObjects[x].top = kp[1] + otherObjects[x].height/2;
-	}
-}
-
-//align all objects' vertical centers to the vertical center of key
-function vAlignCenter(key,otherObjects)
-{
-	var kp = key.top - key.height/2;
-
-	for(var x=0;x<otherObjects.length;x++)
-	{
-		otherObjects[x].top = kp + otherObjects[x].height/2;
-	}
-}
-
-//align all objects to the top of key
-function vAlignTop(key,otherObjects)
-{
-	var kp = key.top;
-
-	for(var x=0;x<otherObjects.length;x++)
-	{
-		otherObjects[x].top = kp;
-	}
-}
-
-//align all ojects to the bottom of key
-function vAlignBottom(key,otherObjects)
-{
-	var kp = key.top - key.height;
-
-	for(var x=0;x<otherObjects.length;x++)
-	{
-		otherObjects[x].top = kp + otherObjects[x].height;
-	}
-}
-
-//align all objects' center points to center point of key
-function hAlignCenter(key,otherObjects)
-{
-	var kp = key.left + key.width/2;
-	for(var x=0;x<otherObjects.length;x++)
-	{
-		otherObjects[x].left = kp - otherObjects[x].width/2;
-	}
-}
-
-//align all objects to the left edge of key
-function hAlignLeft(key,otherObjects)
-{
-	var kp = key.left;
-	for(var x=0;x<otherObjects.length;x++)
-	{
-		otherObjects[x].left = kp;
-	}
-}
-
-// align all objects to the right edge of key
-function hAlignRight(key,otherObjects)
-{
-	var kp = key.left + key.width;
-	for(var x=0;x<otherObjects.length;x++)
-	{
-		otherObjects[x].left = kp - otherObjects[x].width;
-	}
-}
-
-////////////////////////
-////////ATTENTION://////
+//Dependencies
 //
-//		add some logic to allow for aligning to artboard
-//
-////////////////////////
+//object_bounds_data.js : https://github.com/wdjsdev/public_illustrator_scripts/blob/master/object_bounds_data.js
+
+#include "object_bounds_data.js";
+
+
+Array.prototype.forEach = function ( callback, startPos, inc )
+{
+	inc = inc || 1;
+	startPos = startPos || 0;
+	for ( var i = startPos; i < this.length; i += inc )
+		callback( this[ i ], i, this );
+};
+
+
+//customize these "alignType" arguments to your hearts desire
+//whatever tickles your brain just right.
+function align ( key, otherObjects, alignType )
+{
+	switch ( alignType )
+	{
+		//center horizontally and vertically
+		case "center":
+			doTheAligning( key, otherObjects, "vc", "hc" );
+			break;
+
+		//center vertically by centerpoints
+		case "vcenter":
+			doTheAligning( key, otherObjects, "vc", undefined );
+			break;
+
+		//align top of objects to top of key
+		case "vtop":
+			doTheAligning( key, otherObjects, "t", undefined );
+			break;
+
+		//align bottom of objects to bottom of key
+		case "vbottom":
+			doTheAligning( key, otherObjects, "b", undefined );
+			break;
+
+		//center horizontally by centerpoints
+		case "hcenter":
+			doTheAligning( key, otherObjects, undefined, "hc" );
+			break;
+
+		//align left of objects to left of key
+		case "hleft":
+			doTheAligning( key, otherObjects, undefined, "l" );
+			break;
+
+		//align right of objects to right of key
+		case "hright":
+			doTheAligning( key, otherObjects, undefined, "r" );
+			break;
+
+		//align bottom left of objects bottom left of key
+		case "botleft":
+			doTheAligning( key, otherObjects, "b", "l" );
+			break;
+
+		//align bottom right of objects bottom right of key
+		case "botright":
+			doTheAligning( key, otherObjects, "b", "r" );
+			break;
+
+		//align top left of objects top left of key
+		case "topleft":
+			doTheAligning( key, otherObjects, "t", "l" );
+			break;
+
+		//align top right of objects top right of key
+		case "topright":
+			doTheAligning( key, otherObjects, "t", "r" );
+			break;
+
+		//align left of objects to left of key, and vertical center of object to verical center of key
+		case "leftcenter":
+			doTheAligning( key, otherObjects, "vc", "l" );
+			break;
+
+		//align right of objects to right of key, and vertical center of object to verical center of key
+		case "rightcenter":
+			doTheAligning( key, otherObjects, "vc", "r" );
+			break;
+
+		//align top of objects to top of key, and horizontal center of object to horizontal center of key
+		case "topcenter":
+			doTheAligning( key, otherObjects, "t", "hc" );
+			break;
+
+		//align bottom of objects to bottom of key, and horizontal center of object to horizontal center of key
+		case "botcenter":
+			doTheAligning( key, otherObjects, "b", "hc" );
+			break;
+
+	}
+}
+
+
+function doTheAligning ( key, otherObjects, va, ha )
+{
+	var destBounds = getBoundsData( key );
+	if ( !destBounds )
+	{
+		$.writeln( "Error: No bounds data found for key object" );
+		return undefined;
+	}
+	otherObjects.forEach( function ( item )
+	{
+		var itemBounds = getBoundsData( item );
+		if ( !itemBounds.w ) return;
+		if ( va ) //vertical alignment
+		{
+			switch ( va )
+			{
+				case "vc":
+					item.top = destBounds.vc + itemBounds.hh; //vertical center point of key + half height of item
+					break;
+				case "t":
+					item.top = destBounds.t; //top of key
+					break;
+				case "b":
+					item.top = destBounds.b + itemBounds.h; //bottom of key + height of item
+			}
+
+		}
+		if ( ha ) //horizontal alignment
+		{
+			switch ( ha )
+			{
+				case "hc":
+					item.left = destBounds.hc - itemBounds.hw; //horizontal center point of key - half width of item
+					break;
+				case "l":
+					item.left = destBounds.l; //left of key
+					break;
+				case "r":
+					item.left = destBounds.r - itemBounds.w; //right of key - width of item
+			}
+		}
+	} );
+}
+
+
