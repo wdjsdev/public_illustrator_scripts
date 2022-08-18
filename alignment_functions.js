@@ -122,6 +122,9 @@ function align ( key, otherObjects, alignType )
 			doTheAligning( key, otherObjects, "b", "hc" );
 			break;
 
+		default:
+			$.writeln( "Error: Invalid alignType argument.\nValid arguments are: center, vcenter, vtop, vbottom, hcenter, hleft, hright, botleft, botright, topleft, topright, leftcenter, rightcenter, topcenter, botcenter" );
+
 	}
 }
 
