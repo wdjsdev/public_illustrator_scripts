@@ -118,7 +118,13 @@ function test ()
 	var layers = doc.layers;
 	var parents = [ doc, layers[ "parentLayer" ], layers[ "groupItem" ].groupItems[ 0 ], layers[ "compoundPathItem" ].compoundPathItems[ 0 ], doc.swatchGroups[ 0 ], layers[ "textFrame" ].textFrames[ 0 ], app ];
 	var children = [ "layers", "pageItems", "pathItems", "compoundPathItems", "groupItems", "swatches", "textFonts", "textFrames", "placedItems", "rasterItems", "symbolItems", "pluginItems", "artboards", "selection", "characterStyles", "paragraphStyles", "brushes" ];
-
+	Array.prototype.forEach = function ( callback, startPos, inc )
+	{
+		inc = inc || 1;
+		startPos = startPos || 0;
+		for ( var i = startPos; i < this.length; i += inc )
+			callback( this[ i ], i, this );
+	};
 	parents.forEach( function ( curParent )
 	{
 		$.writeln( "//////////////\nTesting Parent: " + curParent.toString() + "\ncurParent.name = " + curParent.name + "\n//////////////" );
