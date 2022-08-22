@@ -84,7 +84,7 @@ function afc ( containers, childTypes )
 		{
 			$.writeln( "ERROR: afc(" + containers.name + "," + childTypes + ");" );
 			$.writeln( "Can't make array from this containers. Invalid containers type: " + containers.typename );
-			return [];
+			return;
 		}
 
 		loopArray( childTypes, function ( curChildType )
